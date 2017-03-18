@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
-    url(r'^polls/', include('polls.urls')),
+    url(r'^polls/', include('demo.polls.urls', namespace='polls')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

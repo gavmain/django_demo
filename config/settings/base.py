@@ -61,7 +61,7 @@ LOCAL_APPS = [
     # custom users app
     'demo.users.apps.UsersConfig',
     # Your stuff: custom apps go here
-    'polls.apps.PollsConfig',
+    'demo.polls.apps.PollsConfig',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

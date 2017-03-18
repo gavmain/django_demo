@@ -5,13 +5,16 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.db.models import F
-from django.views import generic
+#from django.views import generic
 from django.utils import timezone
+from django.core.urlresolvers import reverse
+from django.views.generic import DetailView, ListView, RedirectView
 
 from .models import Choice, Question
 
 
-class IndexView(generic.ListView):
+#class IndexView(generic.ListView):
+class IndexView(ListView):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
 
@@ -25,7 +28,8 @@ class IndexView(generic.ListView):
         ).order_by('-pub_date')[:5] 
 
 
-class DetailView(generic.DetailView):
+#class DetailView(generic.DetailView):
+class DetailView(DetailView):
     model = Question
     template_name = 'polls/detail.html'
 
@@ -35,7 +39,8 @@ class DetailView(generic.DetailView):
         """
         return Question.objects.filter(pub_date__lte=timezone.now())
 
-class ResultsView(generic.DetailView):
+#class ResultsView(generic.DetailView):
+class ResultsView(DetailView):
     model = Question
     template_name = 'polls/results.html'
 
@@ -45,11 +50,11 @@ def vote(request, question_id):
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form
-        return render(request, 'polls/detail.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
-        })
+       # Redisplay the question voting form
+       return render(request, 'polls/detail.html', {
+           'question': question,
+           'error_message': "You didn't select a choice.",
+       })
     else:
         # use F to avoid race condition when saving / updating
         selected_choice.votes = F('votes') + 1
